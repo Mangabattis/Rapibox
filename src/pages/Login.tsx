@@ -14,10 +14,10 @@ function Login() {
       
         <div className="flex flex-col justify-center items-start  w-full h-full p-7 p-8 ">
         <img src={logo} alt="Logo" className="h-18 mb-8 w-auto  " /> {/* Ajuste a altura conforme necessário */}
-          <h1 className="text-start font-bold text-white" style={{fontSize: 'clamp(26px, 3.7vw, 4rem)'}}>
+          <h1 className="text-start font-bold text-white" style={{fontSize: 'clamp(26px, 3.25vw, 4rem)'}}>
             Descubra como a Rapibox pode transformar a gestão do seu estoque e a entrega de produtos!
           </h1>
-          <h2 className="mt-4 text-white text-start mt-2"  style={{fontSize: 'clamp(14px, 3vw, 2.25rem)'}}>
+          <h2 className="mt-4 text-white text-start mt-2"  style={{fontSize: 'clamp(14px, 2.75vw, 2.25rem)'}}>
             Venha experimentar a facilidade de gerenciar seu inventário e garantir entregas rápidas e seguras.
           </h2>
         </div>
