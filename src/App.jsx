@@ -3,7 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+
 import { ResponsiveNavbar } from './components/ResponsiveNavbar';
+import { HomeBanner } from './components/HomeBanner.tsx';
+import { UtilitiesBanner } from './components/UtilidadesBanner.tsx';
+import { Divider } from './components/Divider.tsx';
+import { UnidadesMapa } from './components/UnidadesMapa.tsx';
+import { Faq } from './components/Faq.tsx';
+
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 
@@ -12,10 +19,18 @@ function App() {
 
   return (
     <Router>
-      <ResponsiveNavbar />
+      <ResponsiveNavbar />    
+      
       <Routes>
         <Route path="/" element={
           <>
+       
+          <HomeBanner/>
+          <UtilitiesBanner/>
+          <Divider/>
+          <UnidadesMapa/>
+          <Faq/>
+          
             <div>
               <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
                 <img src={viteLogo} className="logo" alt="Vite logo" />
