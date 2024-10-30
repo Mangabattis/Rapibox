@@ -13,12 +13,18 @@ import { Faq } from './components/Faq.tsx';
 
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
+import Footer from './components/Footer.tsx';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <Router>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap"
+        rel="stylesheet"
+      />
+      
       <ResponsiveNavbar />    
       
       <Routes>
@@ -30,7 +36,7 @@ function App() {
           <Divider/>
           <UnidadesMapa/>
           <Faq/>
-          
+          <Footer/>
             <div>
               <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
                 <img src={viteLogo} className="logo" alt="Vite logo" />

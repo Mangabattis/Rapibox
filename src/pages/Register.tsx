@@ -62,14 +62,14 @@ function Login() {
       {/* Seção com imagem de fundo */}
       <div 
         className="hidden md:flex w-2/5 h-screen pl-12 contrast-125 hover:contrast-150 cursor-pointer"
-        style={{ backgroundImage: `url(${banner2})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ backgroundImage: `url(${banner2})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: '.5s'}}
       > 
         <div className="flex flex-col justify-center items-start w-full h-full p-7 p-8">
           <img src={logo} alt="Logo" className="h-18 mb-8 w-auto" />
-          <h1 className="text-6xl text-start font-bold text-white">
+          <h1 className="text-start font-bold text-white" style={{ fontSize: 'clamp(26px, 3.25vw, 4rem)' }}>
             Descubra como a Rapibox pode transformar a gestão do seu estoque e a entrega de produtos!
           </h1>
-          <h2 className="text-4xl mt-4 text-white text-start mt-2">
+          <h2 className="mt-4 text-white text-start mt-2" style={{ fontSize: 'clamp(14px, 2.75vw, 2.25rem)' }}>
             Venha experimentar a facilidade de gerenciar seu inventário e garantir entregas rápidas e seguras.
           </h2>
         </div>
@@ -89,43 +89,110 @@ function Login() {
           )}
 
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="nomeCompleto"
-              placeholder="Nome Completo"
-              onChange={handleChange}
-              className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg mb-4 text-black"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="E-mail"
-              onChange={handleChange}
-              className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg mb-4 text-black"
-            />
-            <input
-              type="text"
-              name="nomeUsuario"
-              placeholder="Nome do Usuário"
-              onChange={handleChange}
-              className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg mb-4 text-black"
-            />
-            <input
-              type="password"
-              name="senha"
-              placeholder="Senha"
-              onChange={handleChange}
-              className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg mb-4 text-black"
-            />
-            <input
-              type="password"
-              name="confirmeSenha"
-              placeholder="Confirme A Senha"
-              onChange={handleChange}
-              className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg mb-4 text-black"
-            />
+                        
+            <div className="relative mb-4">
+              <input
+                id='nome'
+                type="text"
+                name="nome"
+                placeholder=" "
+                onChange={handleChange}
+                className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
+                required
+              />
+              <label
+                  htmlFor="nome"
+                  className="absolute left-2 top-2 transition-transform duration-500 cursor-text transform scale-100 text-gray-400 cursor-text
+                            peer-focus:-translate-y-7 peer-focus:scale-75
+                            peer-valid:-translate-y-7 peer-valid:scale-75"
+                >
+                Nome Completo
+              </label>
+            </div>
+            
+            <div className="relative mb-4">
+              <input
+                id='email'
+                type="email"
+                name="eamail"
+                placeholder=" "
+                onChange={handleChange}
+                className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
+                required
+              />
+              <label
+                  htmlFor="email"
+                  className="absolute left-2 top-2 transition-transform duration-300 cursor-text transform scale-100 text-gray-400 cursor-text
+                            peer-focus:-translate-y-7 peer-focus:scale-75
+                            peer-valid:-translate-y-7 peer-valid:scale-75"
+                >
+                E-mail
+              </label>
+            </div>
 
-            <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-700">
+            <div className="relative mb-4">
+              <input
+                id='user'
+                type="text"
+                name="nomeUsuario"
+                placeholder=" "
+                onChange={handleChange}
+                className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
+                required
+              />
+              <label
+                  htmlFor="user"
+                  className="absolute left-2 top-2 transition-transform duration-300 cursor-text transform scale-100 text-gray-400 cursor-text
+                            peer-focus:-translate-y-7 peer-focus:scale-75
+                            peer-valid:-translate-y-7 peer-valid:scale-75"
+                >
+                Usuário
+              </label>
+            </div>
+
+
+            <div className="relative mb-4">
+              <input
+                id='senha'
+                type="password"
+                name="senha"
+                placeholder=" "
+                onChange={handleChange}
+                className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
+                required
+              />
+              <label
+                  htmlFor="senha"
+                  className="absolute left-2 top-2 transition-transform duration-300 cursor-text transform scale-100 text-gray-400 cursor-text
+                            peer-focus:-translate-y-7 peer-focus:scale-75
+                            peer-valid:-translate-y-7 peer-valid:scale-75"
+                >
+                Senha
+              </label>
+            </div>
+            
+            <div className="relative mb-6">
+              <input
+                id='confirmar-senha'
+                type="password"
+                name="confirmeSenha"
+                placeholder=" "
+                onChange={handleChange}
+                className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
+                required
+              />
+              <label
+                htmlFor="confirmar-senha"
+                className="absolute left-2 top-2 transition-transform duration-300 cursor-text transform scale-100 text-gray-400 cursor-text
+                          peer-focus:-translate-y-7 peer-focus:scale-75
+                          peer-valid:-translate-y-7 peer-valid:scale-75"
+              >Confirme a senha
+              </label>
+            </div>
+
+
+            <button type="submit" 
+            className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none">
               Cadastrar
             </button>
           </form>

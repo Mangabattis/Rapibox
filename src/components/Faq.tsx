@@ -48,7 +48,7 @@ export const Faq = () => {
               className="bg-white rounded-lg shadow-md border border-gray-200"
             >
               <button
-                className="w-full px-6 py-4 flex justify-between items-center text-left bg-white hover:bg-orange-50"
+                className="w-full px-6 py-4 flex justify-between items-center text-left bg-white hover:bg-orange-50 focus:outline-none"
                 onClick={() => toggleFAQ(index)}
               >
                 <span className="font-medium text-gray-900">{item.pergunta}</span>

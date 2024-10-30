@@ -58,7 +58,7 @@ function Login() {
       {/* Seção com imagem de fundo */}
       <div
         className="hidden md:flex w-2/5 h-screen pl-12 contrast-125 hover:contrast-150 cursor-pointer"
-        style={{ backgroundImage: `url(${banner2})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: '.5s' }}
+        style={{ backgroundImage: `url(${banner2})`, backgroundSize: 'cover', backgroundPosition: 'center', transition: '.5s'}}
       >
         <div className="flex flex-col justify-center items-start w-full h-full p-7 p-8">
           <img src={logo} alt="Logo" className="h-18 mb-8 w-auto" />
@@ -101,7 +101,7 @@ function Login() {
     />
     <label
       htmlFor="email"
-      className="absolute left-2 top-2 transition-transform duration-300 transform scale-100 text-gray-500 
+      className="absolute left-2 top-2 transition-transform duration-300 transform scale-100 text-gray-500 cursor-text
                  peer-focus:-translate-y-7 peer-focus:scale-75 
                  peer-valid:-translate-y-7 peer-valid:scale-75"
     >
@@ -122,7 +122,7 @@ function Login() {
     />
     <label
       htmlFor="senha"
-      className="absolute left-2 top-2 transition-transform duration-300 transform scale-100 text-gray-500 
+      className="absolute left-2 top-2 transition-transform duration-300 transform scale-100 text-gray-500 cursor-text
                  peer-focus:-translate-y-7 peer-focus:scale-75 
                  peer-valid:-translate-y-7 peer-valid:scale-75"
     >
@@ -136,8 +136,7 @@ function Login() {
 
   <button
     type="submit"
-    className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none"
-  >
+    className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none">
     Entrar
   </button>
 </form>
