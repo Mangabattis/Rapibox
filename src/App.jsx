@@ -27,12 +27,11 @@ function App() {
         rel="stylesheet"
       />
       
-      <ResponsiveNavbar />    
       
       <Routes>
         <Route path="/" element={
           <>
-       
+          <ResponsiveNavbar />    
           <HomeBanner/>
           <UtilitiesBanner/>
           <Divider/>

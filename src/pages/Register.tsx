@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import banner2 from '../assets/banner02.png';
 import logo from '../assets/Logo.png';
 import logo2 from '../assets/Logo2.png';
+import { ResponsiveNavbar } from '../components/ResponsiveNavbar';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -67,6 +68,7 @@ function Login() {
 
   return (
     <div className="flex min-h-screen w-screen overflow-hidden bg-white shadow-lg">
+         <ResponsiveNavbar />  
       {/* Seção com imagem de fundo */}
       <div 
         className="hidden md:flex w-2/5 h-screen pl-12 contrast-125 hover:contrast-150 cursor-pointer"
