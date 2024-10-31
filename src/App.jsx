@@ -8,6 +8,7 @@ import { ResponsiveNavbar } from './components/ResponsiveNavbar';
 import { HomeBanner } from './components/HomeBanner.tsx';
 import { UtilitiesBanner } from './components/UtilidadesBanner.tsx';
 import { Divider } from './components/Divider.tsx';
+import { InfoSection } from './components/InfoSection.tsx';
 import { UnidadesMapa } from './components/UnidadesMapa.tsx';
 import { Faq } from './components/Faq.tsx';
 
@@ -34,6 +35,7 @@ function App() {
           <HomeBanner/>
           <UtilitiesBanner/>
           <Divider/>
+          <InfoSection/>
           <UnidadesMapa/>
           <Faq/>
           <Footer/>
