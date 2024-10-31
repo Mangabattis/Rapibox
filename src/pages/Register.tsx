@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import banner2 from '../assets/banner02.png';
 import logo from '../assets/Logo.png';
 import logo2 from '../assets/Logo2.png';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [usuarioData, setUsuarioData] = useState({
@@ -13,6 +14,8 @@ function Login() {
   });
 
   const [erro, setErro] = useState(''); // Estado para armazenar a mensagem de erro
+  const navigate = useNavigate(); //Navegar entre as páginas
+  const [isLoading, setIsLoading] = useState(false); //Quando o usuario clicar em Cadastrar, mudará o botão para 'Carregando...'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +27,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch('http://localhost:8080/cadastrar', {
@@ -48,12 +52,16 @@ function Login() {
         setTimeout(() => setErro(''), 5000);
     } else {
         console.log('Cadastro realizado com sucesso!');
-        //Aqui ficará o redirecionamento
+        //Aqui será responsável por encaminhar as informações do usuario para outra página
+        navigate('/login') 
+        
     }
     } catch (error) {
       console.error('Erro de rede:', error);
       setErro('Erro de rede, tente novamente.'); // Defina a mensagem de erro para falhas de rede
       setTimeout(() => setErro(''), 5000); // Limpa a mensagem após 5 segundos
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -94,7 +102,7 @@ function Login() {
               <input
                 id='nome'
                 type="text"
-                name="nome"
+                name="nomeCompleto"
                 placeholder=" "
                 onChange={handleChange}
                 className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
@@ -114,7 +122,7 @@ function Login() {
               <input
                 id='email'
                 type="email"
-                name="eamail"
+                name="email"
                 placeholder=" "
                 onChange={handleChange}
                 className="w-full p-2 border bg-stone-100 border-gray-300 rounded-lg transition duration-300 ease-in-out focus:border-orange-500 focus:ring-0 focus:outline-none shadow-sm peer text-black"
@@ -191,9 +199,12 @@ function Login() {
             </div>
 
 
-            <button type="submit" 
-            className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none">
-              Cadastrar
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none"
+              disabled={isLoading} //quando o usuario clicar, este botão vai ser desativado, pois se o arrombado ficar clicando infinitamente no botão em tempo de execução com o banco de dados, vai quebrar o sistema
+            >
+              {isLoading ? 'Carregando...' : 'Cadastrar'}
             </button>
           </form>
         </div>

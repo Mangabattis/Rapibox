@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import banner2 from '../assets/banner02.png';
 import logo from '../assets/Logo.png';
 import logo2 from '../assets/Logo2.png';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [usuarioData, setUsuarioData] = useState({
@@ -9,7 +10,9 @@ function Login() {
     senha: '',
   });
 
-  const [erro, setErro] = useState(''); // Estado para mensagem de erro
+  const [erro, setErro] = useState('');
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   // Função para atualizar o estado quando o usuário digitar nos campos
   const handleChange = (e) => {
@@ -20,6 +23,7 @@ function Login() {
   // Função para lidar com o envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await fetch('http://localhost:8080/login', {
@@ -43,13 +47,14 @@ function Login() {
         setTimeout(() => setErro(''), 5000);
       } else {
         console.log('Login realizado com sucesso!');
-        // Aqui você pode redirecionar o usuário ou salvar o token, etc.
+        navigate('/teste')
       }
     } catch (error) {
       console.error('Erro de rede:', error);
       setErro('Erro de rede, tente novamente.');
       setTimeout(() => setErro(''), 5000);
     } finally {
+      setIsLoading(false)
     }
   };
 
@@ -135,10 +140,12 @@ function Login() {
   </small>
 
   <button
-    type="submit"
-    className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none">
-    Entrar
-  </button>
+              type="submit"
+              className="w-full bg-orange-500 text-white py-2 rounded-lg transition-colors duration-500 hover:bg-orange-700 border-none focus:outline-none"
+              disabled={isLoading} //quando o usuario clicar, este botão vai ser desativado, pois se o arrombado ficar clicando infinitamente no botão em tempo de execução com o banco de dados, vai quebrar o sistema
+            >
+              {isLoading ? 'Carregando...' : 'Entrar'}
+            </button>
 </form>
         </div>
       </div>

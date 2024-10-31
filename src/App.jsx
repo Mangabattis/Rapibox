@@ -15,6 +15,7 @@ import { Faq } from './components/Faq.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import Footer from './components/Footer.tsx';
+import Teste from './pages/Teste.tsx' //Problema
 
 function App() {
   const [count, setCount] = useState(0);
@@ -64,6 +65,7 @@ function App() {
         } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/teste" element={<Teste />} /> {/*Problema*/}
       </Routes>
     </Router>
   );
