@@ -25,7 +25,7 @@ const InfoPerfil: React.FC<InfoPerfilProps> = ({ name, cargo, profileImage, onNo
             </button>
 
             {/* Foto de Perfil */}
-            <img src={profileImage} alt="Perfil" className="w-18 h-18 rounded-lg" />
+            <img src={profileImage} alt="Perfil" className="w-16 h-16 rounded-lg" />
 
             {/* Informações do Perfil */}
             <div className="text-left">

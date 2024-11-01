@@ -1,9 +1,9 @@
 // Dashboard.tsx
 import React, { useEffect, useState } from 'react';
-import  InfoPerfil  from '../Session/InfoPerfil.tsx';
+import  InfoPerfil  from './InfoPerfil.tsx';
 
 //Importando uma foto de Perfil Generica
-import ProfilePerfilMock from '../../assets/ProfilePerfilMock.png';
+import ProfilePerfilMock from '../../assets/ProfilePerfilMock2.png';
 
 const Dashboard: React.FC = () => {
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null); // Estado para armazenar o nome do usuário
