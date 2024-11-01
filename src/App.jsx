@@ -1,3 +1,4 @@
+// App.tsx
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import reactLogo from './assets/react.svg';
@@ -15,7 +16,9 @@ import { Faq } from './components/Faq.tsx';
 import Login from './pages/Login.tsx';
 import Register from './pages/Register.tsx';
 import Footer from './components/Footer.tsx';
-import Teste from './pages/Teste.tsx' //Problema
+import Teste from './pages/Teste.tsx'; // Problema
+import Dashboard from './components/Session/Dashboard.tsx'; // Componente do painel
+import DadosPessoais from './components/Session/Pages/DadosPessoais.tsx'; // Página de dados pessoais
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,44 +30,27 @@ function App() {
         rel="stylesheet"
       />
       
-      
       <Routes>
         <Route path="/" element={
           <>
-          <ResponsiveNavbar />    
-          <HomeBanner/>
-          <UtilitiesBanner/>
-          <Divider/>
-          <InfoSection/>
-          <UnidadesMapa/>
-          <Faq/>
-          <Footer/>
-            <div>
-              <a href="https://vitejs.dev" target="_blank" rel="noopener noreferrer">
-                <img src={viteLogo} className="logo" alt="Vite logo" />
-              </a>
-              <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-                <img src={reactLogo} className="logo react" alt="React logo" />
-              </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-              <button onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-              </button>
-              <p>
-                Edit <code>src/App.jsx</code> and save to test HMR
-              </p>
-            </div>
-            <p className="read-the-docs">
-              Click on the Vite and React logos to learn more
-            </p>
-            <h1 className="text-2xl text-white font-bold text-center">Tailwind Test</h1>
+            <ResponsiveNavbar />    
+            <HomeBanner/>
+            <UtilitiesBanner/>
+            <Divider/>
+            <InfoSection/>
+            <UnidadesMapa/>
+            <Faq/>
+            <Footer/>
           </>
         } />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/teste" element={<Teste />} /> {/*Problema*/}
+        <Route path="/teste" element={<Teste />} /> {/* Problema */}
+        
+        {/* Adicione as rotas do dashboard */}
+        <Route path="/dashboard/*" element={<Dashboard />} /> 
+        <Route path="/dados-pessoais" element={<DadosPessoais />} /> {/* Página de dados pessoais */}
       </Routes>
     </Router>
   );
