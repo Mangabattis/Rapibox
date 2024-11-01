@@ -11,6 +11,8 @@ function Login() {
     senha: '',
   });
 
+  const [usuarioLogado, setUsuarioLogado] = useState(null); // Estado para armazenar o usuário logado
+
   const [erro, setErro] = useState('');
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +49,10 @@ function Login() {
         }
         setTimeout(() => setErro(''), 5000);
       } else {
-        console.log('Login realizado com sucesso!');
+        const user = await response.json();
+        setUsuarioLogado(user);
+        localStorage.setItem('nomeUsuario', user.nomeUsuario);
+        //Paasará tbm outras informações (email, nome completo)
         navigate('/SessaoLogada')
       }
     } catch (error) {

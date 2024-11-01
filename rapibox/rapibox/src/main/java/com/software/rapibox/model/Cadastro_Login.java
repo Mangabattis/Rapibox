@@ -1,6 +1,9 @@
 package com.software.rapibox.model;
 
+import java.sql.Blob;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +29,11 @@ public class Cadastro_Login {
         this.confirmeSenha = confirmeSenha;
     }
 
+    public Cadastro_Login(Long telefone, Blob fotoUsuario){
+        this.telefone = telefone;
+        this.fotoUsuario = fotoUsuario;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,5 +53,17 @@ public class Cadastro_Login {
     // Este campo não será persistido no banco
     @Transient
     private String confirmeSenha;
+
+    @Column(name = "foto_usuario", nullable = true) // Atributo para armazenar a foto do usuário
+    private Blob fotoUsuario;
+
+    @Column(name = "telefone", nullable = true)
+    @Size(min = 11, max = 13)
+    private Long telefone;
+
+    // Relacionamento com a tabela BusinessInfo
+    @OneToOne(mappedBy = "cadastroLogin", cascade = CascadeType.ALL)
+    private Info_Negocio infoNegocio;
+
 
 }

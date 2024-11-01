@@ -1,5 +1,5 @@
 // pages/DadosPessoais.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SidebarSession from '../../Session/SidebarSession'; // Importando o Sidebar
 import InfoPerfil from '../../Session/InfoPerfil';
 
@@ -7,6 +7,14 @@ import InfoPerfil from '../../Session/InfoPerfil';
 import ProfilePerfilMock from '../../../assets/ProfilePerfilMock.png';
 
 const DadosPessoais: React.FC = () => {
+    const [nomeUsuario, setNomeUsuario] = useState<string | null>(null); // Estado para armazenar o nome do usuário
+
+     // useEffect para recuperar o nome do usuário do localStorage
+     useEffect(() => {
+        const nome = localStorage.getItem('nomeUsuario');
+        setNomeUsuario(nome);
+    }, []);
+    
     return (
         <div className="flex">
             {/* Sidebar */}
@@ -16,7 +24,7 @@ const DadosPessoais: React.FC = () => {
                 <h1 className="text-2xl font-semibold text-black text-center">Dados Pessoais</h1>
 
                 <InfoPerfil 
-                    name={'Eduardo'} 
+                    name={nomeUsuario || 'Usuário'} 
                     cargo={'admin'} 
                     profileImage={ProfilePerfilMock} 
                     onNotificationClick={() => {
