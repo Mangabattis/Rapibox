@@ -48,7 +48,7 @@ function Login() {
         setTimeout(() => setErro(''), 5000);
       } else {
         console.log('Login realizado com sucesso!');
-        navigate('/teste')
+        navigate('/SessaoLogada')
       }
     } catch (error) {
       console.error('Erro de rede:', error);

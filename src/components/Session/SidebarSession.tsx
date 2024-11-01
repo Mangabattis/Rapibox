@@ -12,10 +12,10 @@ const SidebarSession: React.FC = () => {
                 <img src={logo} alt="Logo" className="h-20 mb-8 w-40" />
             </div>
             <nav className="flex flex-col gap-4 px-4 mt-8">
-                <button onClick={() => navigate('/teste')} className="text-left">Dashboard</button>
-                <button onClick={() => navigate('/teste/produtos')} className="text-left">Produtos</button>
-                <button onClick={() => navigate('/teste/cadastrar')} className="text-left">Cadastrar</button>
-                <button onClick={() => navigate('/teste/entregas')} className="text-left">Entregas</button>
+                <button onClick={() => navigate('/SessaoLogada')} className="text-left">Dashboard</button>
+                <button onClick={() => navigate('/SessaoLogada/produtos')} className="text-left">Produtos</button>
+                <button onClick={() => navigate('/SessaoLogada/cadastrar')} className="text-left">Cadastrar</button>
+                <button onClick={() => navigate('/SessaoLogada/entregas')} className="text-left">Entregas</button>
                 <button onClick={() => navigate('/dados-pessoais')} className="text-left">Dados Pessoais</button>
             </nav>
             <div className="mt-auto mb-9 px-4 py-6">
