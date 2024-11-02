@@ -7,7 +7,7 @@ const SidebarSession: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="w-64 h-screen bg-orange-500 text-white flex flex-col">
+        <div className="w-64 min-h-screen bg-orange-500 text-white flex flex-col overflow-y-auto">
             <div className="flex justify-center mt-12">
                 <img src={logo} alt="Logo" className="h-20 mb-8 w-40" />
             </div>

@@ -16,8 +16,12 @@
     import Login from './pages/Login.tsx';
     import Register from './pages/Register.tsx';
     import Footer from './components/Footer.tsx';
+
     import SessaoLogada from './pages/SessaoLogada.tsx'; // Problema
     import Dashboard from './components/Session/Dashboard.tsx'; // Componente do painel
+    import Produtos from './components/Session/Pages/Produtos.tsx'; // Problema
+    import Cadastrar from './components/Session/Pages/Cadastrar.tsx';
+    import Entregas from './components/Session/Pages/Entregas.tsx';
     import DadosPessoais from './components/Session/Pages/DadosPessoais.tsx'; // Página de dados pessoais
 
     function App() {
@@ -46,7 +50,12 @@
             
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+
+            {/* Session Routes */}
             <Route path="/SessaoLogada" element={<SessaoLogada />} /> {/* Problema */}
+            <Route path="/SessaoLogada/produtos" element={<Produtos />} /> 
+            <Route path="/SessaoLogada/cadastrar" element={<Cadastrar />} /> 
+            <Route path="/SessaoLogada/entregas" element={<Entregas />} /> 
             
             {/* Adicione as rotas do dashboard */}
             <Route path="/dashboard/*" element={<Dashboard />} /> 
