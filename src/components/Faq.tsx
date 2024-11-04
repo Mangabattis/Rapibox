@@ -84,7 +84,7 @@ export const Faq = () => {
               </button>
               
               {expandedIndex === index && (
-                <div className="px-6 pb-4 text-gray-600 bg-white">
+                <div className="px-6 pb-4 text-gray-600 bg-white rounded-lg">
                   {item.resposta}
                 </div>
               )}
