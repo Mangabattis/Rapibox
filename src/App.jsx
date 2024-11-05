@@ -23,47 +23,51 @@ import Cadastrar from './components/Session/Pages/Cadastrar.tsx';
 import Entregas from './components/Session/Pages/Entregas.tsx';
 import DadosPessoais from './components/Session/Pages/DadosPessoais.tsx';
 import EnviarProduto from './components/Session/Pages/EnviarProduto';
+import RastreioPage from './components/Session/RastreioPage.tsx'; // Certifique-se de importar o componente
 
 function App() {
     const [count, setCount] = useState(0);
 
     return (
         <Router>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap"
-            rel="stylesheet"
-        />
-        
-        <Routes>
-            <Route path="/" element={
-            <>
-                <ResponsiveNavbar />    
-                <HomeBanner/>
-                <UtilitiesBanner/>
-                <Divider/>
-                <InfoSection/>
-                <UnidadesMapa/>
-                <Faq/>
-                <Footer/>
-            </>
-            } />
+            <link
+                href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap"
+                rel="stylesheet"
+            />
             
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Routes>
+                <Route path="/" element={
+                    <>
+                        <ResponsiveNavbar />    
+                        <HomeBanner/>
+                        <UtilitiesBanner/>
+                        <Divider/>
+                        <InfoSection/>
+                        <UnidadesMapa/>
+                        <Faq/>
+                        <Footer/>
+                    </>
+                } />
+                
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-            {/* Session Routes */}
-            <Route path="/SessaoLogada" element={<SessaoLogada />} />
-            <Route path="/SessaoLogada/produtos" element={<Produtos />} /> 
-            <Route path="/SessaoLogada/cadastrar" element={<Cadastrar />} /> 
-            <Route path="/SessaoLogada/entregas" element={<Entregas />} /> 
-            
-            {/* Adicione as rotas do dashboard */}
-            <Route path="/dashboard/*" element={<Dashboard />} /> 
-            <Route path="/dados-pessoais" element={<DadosPessoais />} />
+                {/* Session Routes */}
+                <Route path="/SessaoLogada" element={<SessaoLogada />} />
+                <Route path="/SessaoLogada/produtos" element={<Produtos />} /> 
+                <Route path="/SessaoLogada/cadastrar" element={<Cadastrar />} /> 
+                <Route path="/SessaoLogada/entregas" element={<Entregas />} /> 
+                
+                {/* Adicione as rotas do dashboard */}
+                <Route path="/dashboard/*" element={<Dashboard />} /> 
+                <Route path="/dados-pessoais" element={<DadosPessoais />} />
 
-            {/* Nova rota para a página de envio do produto */}
-            <Route path="/enviar-produto/:produtoId" element={<EnviarProduto />} />
-        </Routes>
+                {/* Nova rota para a página de envio do produto */}
+                <Route path="/enviar-produto/:produtoId" element={<EnviarProduto />} />
+                
+                {/* Nova rota para RastreioPage */}
+                <Route path="/rastreio" element={<RastreioPage />} />
+            </Routes>
         </Router>
     );
 }
