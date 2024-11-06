@@ -17,7 +17,9 @@ const SessaoLogada: React.FC<SessaoLogadaProps> = () => {
 
     return (
         <div className="flex min-h-screen">
-            <Sidebar />
+            <div className='w-100'>
+                <Sidebar />
+            </div>
             <div className="flex flex-col items-center justify-center w-full p-6 bg-white">
                 <InfoPerfil
                     name={nomeUsuario || 'Usuário'}

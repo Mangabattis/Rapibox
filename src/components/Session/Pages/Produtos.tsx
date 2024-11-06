@@ -58,8 +58,10 @@ const Produtos: React.FC = () => {
 
     return (
         <div className="flex min-h-screen w-full">
-            <Sidebar />
-            <div className="flex flex-col w-full p-6 bg-white items-center">
+            <div className='w-100 fixed h-screen'>
+                <Sidebar />
+            </div>
+            <div className="flex flex-col w-full p-6 bg-white items-center ml-[20vw]">
                 <div className="w-full max-w-screen-xl px-4">
                     <InfoPerfil
                         name={nomeUsuario || "Usuário"}

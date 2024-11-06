@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../../Session/SidebarSession';
 import InfoPerfil from '../../Session/InfoPerfil';
 import ProfilePerfilMock from '../../../assets/ProfilePerfilMock2.png';
+import SidebarSession from '../../Session/SidebarSession';
 
 interface SessaoLogadaProps {}
 
@@ -41,7 +42,9 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
 
     return (
         <div className="flex">
-            <Sidebar />
+            <div className='w-100'>
+                <SidebarSession />
+            </div>
             <InfoPerfil 
                 name={nomeUsuario || 'Usuário'} 
                 cargo="admin" 
