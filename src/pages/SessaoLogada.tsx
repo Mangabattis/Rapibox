@@ -3,34 +3,54 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Session/SidebarSession.tsx';
 import InfoPerfil from '../components/Session/InfoPerfil.tsx';
 import ProfilePerfilMock from '../assets/ProfilePerfilMock2.png';
-import Dashboard from '../components/Session/Dashboard.tsx';
 
 interface SessaoLogadaProps {}
 
 const SessaoLogada: React.FC<SessaoLogadaProps> = () => {
+    const userId = localStorage.getItem('id');
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
+    const [fotoUsuario, setFotoUsuario] = useState<string | null>(null);
 
     useEffect(() => {
-        const nome = localStorage.getItem('nomeUsuario');
-        setNomeUsuario(nome);
-    }, []);
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/usuarios/${userId}`);
+                if (!response.ok) {
+                    const text = await response.text();
+                    console.log(text);
+                }
+                const userData = await response.json();
+                
+                setNomeUsuario(userData.nomeUsuario || '');
+
+    
+                if (userData.fotoUsuario) {
+                    setFotoUsuario(`data:image/jpeg;base64,${userData.fotoUsuario}`);
+                } else {
+                    setFotoUsuario(ProfilePerfilMock);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        };
+
+        if (userId) {
+            fetchUserData();
+        }
+    }, [userId]);
 
     return (
-        <div className="flex min-h-screen">
-            <div className='w-100'>
-                <Sidebar />
-            </div>
-            <div className="flex flex-col items-center justify-center w-full p-6 bg-white">
-                <InfoPerfil
-                    name={nomeUsuario || 'Usuário'}
-                    cargo="admin"
-                    profileImage={ProfilePerfilMock}
-                    onNotificationClick={() => {}}
-                />
-                <div className="w-full flex justify-center">
-                    <Dashboard /> {/* Componente de Resumo de Vendas */}
-                </div>
-            </div>
+        <div className="flex">
+            <Sidebar />
+
+            <InfoPerfil 
+                name={nomeUsuario || ''} 
+                cargo={'admin'} 
+                profileImage={fotoUsuario || ProfilePerfilMock} // Passar a foto do usuário
+                onNotificationClick={function (): void {
+                    throw new Error('Function not implemented.');
+                }}
+            /> 
         </div>
     );
 };

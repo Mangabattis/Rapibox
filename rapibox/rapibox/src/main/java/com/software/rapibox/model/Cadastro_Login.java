@@ -1,6 +1,8 @@
 package com.software.rapibox.model;
 
-import java.sql.Blob;
+
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -29,9 +31,10 @@ public class Cadastro_Login {
         this.confirmeSenha = confirmeSenha;
     }
 
-    public Cadastro_Login(Long telefone, Blob fotoUsuario){
+    public Cadastro_Login(String telefone, byte[] fotoUsuario, Info_Negocio infoNegocio){
         this.telefone = telefone;
         this.fotoUsuario = fotoUsuario;
+        this.infoNegocio = infoNegocio;
     }
 
     @Id
@@ -50,19 +53,20 @@ public class Cadastro_Login {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @Column(name = "telefone")
+    @Size(max = 15)
+    private String telefone;
+
+    @Lob
+    @Column(name = "foto_usuario")
+    private byte[] fotoUsuario;
+
     // Este campo não será persistido no banco
     @Transient
     private String confirmeSenha;
 
-    @Column(name = "foto_usuario", nullable = true) // Atributo para armazenar a foto do usuário
-    private Blob fotoUsuario;
-
-    @Column(name = "telefone", nullable = true)
-    @Size(min = 11, max = 13)
-    private Long telefone;
-
-    // Relacionamento com a tabela BusinessInfo
-    @OneToOne(mappedBy = "cadastroLogin", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "cadastroLogin", cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = true)
+    @JsonManagedReference
     private Info_Negocio infoNegocio;
 
 

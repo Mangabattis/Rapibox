@@ -1,5 +1,6 @@
 package com.software.rapibox.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.software.rapibox.model.Cadastro_Login;

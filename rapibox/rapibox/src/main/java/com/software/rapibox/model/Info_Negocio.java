@@ -1,5 +1,8 @@
 package com.software.rapibox.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -10,6 +13,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Info_Negocio {
+
+    public Info_Negocio() {
+    }
+
+    public Info_Negocio(String nomeEmpresa, String cnpj, String cep, String cidade, String estado, String rua, String bairro) {
+        this.nomeEmpresa = nomeEmpresa;
+        this.cnpj = cnpj;
+        this.cep = cep;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.rua = rua;
+        this.bairro = bairro;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +55,8 @@ public class Info_Negocio {
     private String bairro;
 
     // Relacionamento com a tabela Cadastro_Login
-    @OneToOne
-    @JoinColumn(name = "cadastro_login_id", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cadastro_login_id")
+    @JsonBackReference
     private Cadastro_Login cadastroLogin;
 }

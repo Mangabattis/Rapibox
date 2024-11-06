@@ -1,23 +1,20 @@
 package com.software.rapibox.service;
 
 import com.software.rapibox.model.Cadastro_Login;
+import com.software.rapibox.model.Info_Negocio;
 import com.software.rapibox.model.RespostaModel;
 import com.software.rapibox.repository.CadastroLoginRepository;
 
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import java.io.IOException;
-
-import javax.sql.rowset.serial.SerialBlob;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Service
 public class CadastroLoginService {
@@ -69,42 +66,73 @@ public class CadastroLoginService {
         return new ResponseEntity<RespostaModel>(rm, HttpStatus.UNAUTHORIZED);
     }
 
-    public ResponseEntity<?> adicionardadospessoal(Long id, Long telefone, InputStream fotoInputStream) {
+    public ResponseEntity<Cadastro_Login> buscarUsuarioPorId(Long id) {
         Optional<Cadastro_Login> usuarioOptional = cadastroLoginRepository.findById(id);
-    
         if (!usuarioOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Retorna 404 se não encontrado
         }
-    
-        Cadastro_Login usuario = usuarioOptional.get();
-    
-        // Atualiza o telefone se ele foi fornecido
-        if (telefone != null) {
-            try {
-                usuario.setTelefone(telefone);
-            } catch (Exception e) {
-                rm.setMensagem("Erro ao atualizar o telefone.");
-                return new ResponseEntity<>(rm, HttpStatus.BAD_REQUEST);
-            }
-        }
-    
-        // Atualiza a foto se ela foi fornecida
-        if (fotoInputStream != null) {
-            try {
-                byte[] fotoBytes = fotoInputStream.readAllBytes();
-                Blob fotoBlob = new SerialBlob(fotoBytes);
-                usuario.setFotoUsuario(fotoBlob);
-            } catch (IOException | SQLException e) {
-                rm.setMensagem("Erro ao processar a foto.");
-                return new ResponseEntity<>(rm, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-    
-        cadastroLoginRepository.save(usuario);
-        rm.setMensagem("Dados pessoais atualizados com sucesso.");
-        return new ResponseEntity<>(rm, HttpStatus.OK);
+        return new ResponseEntity<>(usuarioOptional.get(), HttpStatus.OK); // Retorna o usuário se encontrado
     }
+
+    public Cadastro_Login atualizarTelefoneEFoto(Long id, String telefone, byte[] fotoUsuario, Info_Negocio infoNegocio) {
+        // Busque o Cadastro_Login do banco de dados
+        Cadastro_Login cadastro = cadastroLoginRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     
+        if (telefone != null) {
+            cadastro.setTelefone(telefone);
+        }
     
+        if (fotoUsuario != null) {
+            cadastro.setFotoUsuario(fotoUsuario);
+        }
     
+        // Verifique se a instância de Info_Negocio já está associada ao Cadastro_Login
+        Info_Negocio cadastroInfoNegocio = cadastro.getInfoNegocio();
+    
+        // Se já existe, atualize os campos. Caso contrário, não faça nenhuma alteração
+        if (cadastroInfoNegocio != null && infoNegocio != null) {
+            if (infoNegocio.getNomeEmpresa() != null) {
+                cadastroInfoNegocio.setNomeEmpresa(infoNegocio.getNomeEmpresa());
+            }
+            if (infoNegocio.getCnpj() != null) {
+                cadastroInfoNegocio.setCnpj(infoNegocio.getCnpj());
+            }
+            if (infoNegocio.getCep() != null) {
+                cadastroInfoNegocio.setCep(infoNegocio.getCep());
+            }
+            if (infoNegocio.getCidade() != null) {
+                cadastroInfoNegocio.setCidade(infoNegocio.getCidade());
+            }
+            if (infoNegocio.getEstado() != null) {
+                cadastroInfoNegocio.setEstado(infoNegocio.getEstado());
+            }
+            if (infoNegocio.getRua() != null) {
+                cadastroInfoNegocio.setRua(infoNegocio.getRua());
+            }
+            if (infoNegocio.getBairro() != null) {
+                cadastroInfoNegocio.setBairro(infoNegocio.getBairro());
+            }
+        } else if (cadastroInfoNegocio == null && infoNegocio != null) {
+            // Usuário não possui Info_Negocio. Criar um novo registro.
+            System.out.println("Usuário não possui Info_Negocio. Criando novo registro.");
+    
+            // Criação de um novo registro de Info_Negocio
+            Info_Negocio novoInfoNegocio = new Info_Negocio();
+            novoInfoNegocio.setNomeEmpresa(infoNegocio.getNomeEmpresa());
+            novoInfoNegocio.setCnpj(infoNegocio.getCnpj());
+            novoInfoNegocio.setCep(infoNegocio.getCep());
+            novoInfoNegocio.setCidade(infoNegocio.getCidade());
+            novoInfoNegocio.setEstado(infoNegocio.getEstado());
+            novoInfoNegocio.setRua(infoNegocio.getRua());
+            novoInfoNegocio.setBairro(infoNegocio.getBairro());
+    
+            // Associa o novo Info_Negocio ao Cadastro_Login
+            novoInfoNegocio.setCadastroLogin(cadastro);
+            cadastro.setInfoNegocio(novoInfoNegocio);
+        }
+    
+        // Salva as alterações
+        return cadastroLoginRepository.save(cadastro);
+    }
 }

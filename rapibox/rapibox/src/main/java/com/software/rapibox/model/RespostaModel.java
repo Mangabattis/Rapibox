@@ -9,6 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RespostaModel {
-    private String mensagem;
+    private String mensagem; //Será responsável pelas mensagens de retorno
 }
 
