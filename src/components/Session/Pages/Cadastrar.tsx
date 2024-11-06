@@ -52,7 +52,7 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
                 onNotificationClick={() => {}} 
             />
             <div className="flex items-center justify-center w-full">
-                <div className="bg-white shadow-2xl rounded-lg p-8 "> {/* Definindo largura do cartão */}
+                <div className="bg-white shadow-2xl rounded-lg p-8"> {/* Definindo largura do cartão */}
                     <h1 className="text-center text-black text-2xl font-bold mb-6">Cadastre Seu Produto</h1>
                     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                         <div className="flex flex-col items-center">
@@ -64,7 +64,7 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
                                     <img 
                                         src={URL.createObjectURL(imagem)} 
                                         alt="Imagem do Produto" 
-                                        className="object-cover w-full h-full rounded-md" 
+                                        className="object-contain max-h-full max-w-full w-full h-full rounded-md" 
                                     />
                                 ) : (
                                     <img 

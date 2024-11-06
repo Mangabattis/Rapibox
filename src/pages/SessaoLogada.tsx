@@ -1,6 +1,7 @@
 // SessaoLogada.tsx
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Session/SidebarSession.tsx';
+import DashBoard from '../components/Session/Dashboard.tsx';
 import InfoPerfil from '../components/Session/InfoPerfil.tsx';
 import ProfilePerfilMock from '../assets/ProfilePerfilMock2.png';
 
@@ -50,7 +51,8 @@ const SessaoLogada: React.FC<SessaoLogadaProps> = () => {
                 onNotificationClick={function (): void {
                     throw new Error('Function not implemented.');
                 }}
-            /> 
+            />
+            <DashBoard/> 
         </div>
     );
 };
