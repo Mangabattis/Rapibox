@@ -2,41 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../Session/SidebarSession';
 import InfoPerfil from '../../Session/InfoPerfil';
-import ProdutoItem from '../ItemProduto';
 import ProfilePerfilMock from '../../../assets/ProfilePerfilMock2.png';
+import ProdutoItem from '../ItemProduto';
 import ExampleProductImage from '../../../assets/ProfilePerfilMock2.png';
 
 const Produtos: React.FC = () => {
+    const userId = localStorage.getItem('id');
+    const [produtos, setProdutos] = useState<any[]>([]);
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const itemsPerPage = 12;
     const navigate = useNavigate();
 
-    const produtos = [
-        { id: 1, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 2, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 3, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 4, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 5, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 6, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 7, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 8, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 9, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 10, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 11, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 12, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 13, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 14, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-        { id: 15, nome: 'DYNAMIC SPORTS 650ET', imagem: ExampleProductImage, preco: 109.00 },
-    ];
-
     useEffect(() => {
-        const nome = localStorage.getItem('nomeUsuario');
-        setNomeUsuario(nome);
+
+        fetch(`http://localhost:8080/produtos/${userId}`) 
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                setProdutos(data); 
+            })
+            .catch(error => console.error('Erro ao buscar produtos:', error));
     }, []);
 
-    const handleEnviarClick = (produto) => {
-        // Redirecione o usuário para a página de envio com os detalhes do produto
+    const handleEnviarClick = (produto: { id: any; }) => {
         navigate(`/enviar-produto/${produto.id}`, { state: { produto } });
     };
 
@@ -58,17 +47,11 @@ const Produtos: React.FC = () => {
 
     return (
         <div className="flex min-h-screen w-full">
-            <div className='w-100 fixed h-screen'>
+            <div className="w-100 fixed h-screen">
                 <Sidebar />
             </div>
             <div className="flex flex-col w-full p-6 bg-white items-center ml-[20vw]">
                 <div className="w-full max-w-screen-xl px-4">
-                    <InfoPerfil
-                        name={nomeUsuario || "Usuário"}
-                        cargo="admin"
-                        profileImage={ProfilePerfilMock}
-                        onNotificationClick={() => {}}
-                    />
 
                     <div className="mt-16 max-w-full">
                         <h1 className="text-2xl font-bold text-start mb-6 text-gray-800">
@@ -82,8 +65,8 @@ const Produtos: React.FC = () => {
                                 <ProdutoItem
                                     key={produto.id}
                                     nome={produto.nome}
-                                    imagem={produto.imagem}
-                                    preco={produto.preco}
+                                    imagem={produto.foto ? `data:image/jpeg;base64,${produto.foto}` : ExampleProductImage}
+                                    preco={produto.valor}
                                     onEnviar={() => handleEnviarClick(produto)}
                                 />
                             ))}

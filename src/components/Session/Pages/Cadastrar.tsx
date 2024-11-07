@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../Session/SidebarSession';
+import SidebarSession from '../../Session/SidebarSession';
 import InfoPerfil from '../../Session/InfoPerfil';
 import ProfilePerfilMock from '../../../assets/ProfilePerfilMock2.png';
-import SidebarSession from '../../Session/SidebarSession';
 
 interface SessaoLogadaProps {}
 
 const Cadastrar: React.FC<SessaoLogadaProps> = () => {
+    const userId = localStorage.getItem('id');
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
     const [nomeProduto, setNomeProduto] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -15,14 +15,17 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
     const [quantidade, setQuantidade] = useState('');
     const [peso, setPeso] = useState('');
     const [imagem, setImagem] = useState<File | null>(null);
-    const imagemInputRef = React.useRef<HTMLInputElement>(null); // Referência para o input de imagem
+    const imagemInputRef = React.useRef<HTMLInputElement>(null);
+    const [erro, setErro] = useState(null);
+    const [aviso, setAviso] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const nome = localStorage.getItem('nomeUsuario');
         setNomeUsuario(nome);
     }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Validações para evitar valores zerados ou negativos
@@ -31,7 +34,41 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
             return;
         }
 
-        console.log({ nomeProduto, descricao, categoria, valor, quantidade, peso, imagem });
+        const formData = new FormData();
+        formData.append('nome', nomeProduto);
+        formData.append('descricao', descricao);
+        formData.append('categoria', categoria);
+        formData.append('valor', valor);
+        formData.append('quantidade', quantidade);
+        formData.append('peso', peso);
+        if (imagem) {
+            formData.append('foto', imagem);
+        }
+        formData.append('cadastroLoginId', String(userId));
+
+        try {
+            const response = await fetch('http://localhost:8080/cadastrar-produto', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Produto cadastrado com sucesso:');
+                setAviso('Produto Cadastrado!'); // Define o aviso
+                setTimeout(() => {
+                    setAviso('');
+                }, 3000);
+            } else {
+                const errorData = await response.json();
+                setErro('Preencha todos os campos');
+                setTimeout(() => setErro(null), 3000);
+            }
+        } catch (error) {
+            console.error('Erro ao enviar o produto:', error);
+            setErro('Erro na rede, tente novamente');
+            setTimeout(() => setErro(null), 3000);
+        }
     };
 
     const handleImageClick = () => {
@@ -45,15 +82,11 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
             <div className='w-100'>
                 <SidebarSession />
             </div>
-            <InfoPerfil 
-                name={nomeUsuario || 'Usuário'} 
-                cargo="admin" 
-                profileImage={ProfilePerfilMock} 
-                onNotificationClick={() => {}} 
-            />
             <div className="flex items-center justify-center w-full">
                 <div className="bg-white shadow-2xl rounded-lg p-8"> {/* Definindo largura do cartão */}
                     <h1 className="text-center text-black text-2xl font-bold mb-6">Cadastre Seu Produto</h1>
+                    {aviso && <div className="bg-green-500 text-white p-2 rounded mb-4">{aviso}</div>}
+                    {erro && <div className="bg-red-500 text-white p-2 rounded mb-4">{erro}</div>}
                     <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                         <div className="flex flex-col items-center">
                             <div 
@@ -158,7 +191,7 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
                                 }} 
                             />
                         </div>
-                        <div className="mt-4 bg-blue-100 p-4 rounded-md">
+                        <div className="mt-4 bg-green-500 text-white p-4 rounded-md">
                             <p className="font-semibold">Tipo do produto: {categoria || "Não selecionado"}</p>
                             <p className="font-semibold">Meio de pagamento: Na entrega</p>
                         </div>
@@ -172,9 +205,9 @@ const Cadastrar: React.FC<SessaoLogadaProps> = () => {
                             <button 
                                 type="button" 
                                 className="bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-md hover:bg-gray-400 transition duration-200"
-                                onClick={() => {}}
+                                onClick={() => window.location.reload()} // Recarregar a página
                             >
-                                Cancelar
+                                Limpar Formulário
                             </button>
                         </div>
                     </form>

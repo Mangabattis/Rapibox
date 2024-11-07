@@ -11,11 +11,6 @@ const Entregas: React.FC<SessaoLogadaProps> = () => {
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
     const navigate = useNavigate(); // Instancia o hook para navegação
 
-    useEffect(() => {
-        const nome = localStorage.getItem('nomeUsuario');
-        setNomeUsuario(nome);
-    }, []);
-
     // Função para lidar com o clique em um item de entrega
     const handleEntregaClick = (status: string) => {
         // Redireciona para a página Rastreio passando o status como propriedade
@@ -28,12 +23,7 @@ const Entregas: React.FC<SessaoLogadaProps> = () => {
             <div className="flex-grow p-16">
                 {/* Perfil do Usuário */}
                 <div className="flex justify-end mb-6 pt-28">
-                    <InfoPerfil 
-                        name={nomeUsuario || 'Usuário'} 
-                        cargo={'admin'} 
-                        profileImage={ProfilePerfilMock} 
-                        onNotificationClick={() => console.log('Notificação clicada')} 
-                    />
+
                 </div>
 
                 {/* Dashboard de Entregas */}
