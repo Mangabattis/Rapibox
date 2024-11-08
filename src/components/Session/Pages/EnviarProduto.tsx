@@ -1,11 +1,13 @@
 // src/components/EnviarProduto.tsx
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from '../../Session/SidebarSession';
 import ProfilePerfilMock from '../../../assets/ProfilePerfilMock2.png';
 import InfoPerfil from '../../Session/InfoPerfil';
 
 interface EnviarProdutoProps {
+    cadastroLogin: any;
+    infoNegocio: any;
     id: number;
     nome: string;
     valor: number;
@@ -24,8 +26,18 @@ const EnviarProduto: React.FC = () => {
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
     const [quantidade, setQuantidade] = useState(1);
     const [frete, setFrete] = useState(82.0);
+    const navigate = useNavigate()
     
-   
+    const handleSalvar = () => {
+        // Redirecionar para a página X após salvar
+        navigate('/SessaoLogada/entregas');
+    };
+
+    // Função para cancelar e redirecionar
+    const handleCancelar = () => {
+        // Redirecionar para a página Y
+        navigate('/SessaoLogada/produtos');
+    };
 
     useEffect(() => {
         const nome = localStorage.getItem('nomeUsuario');
@@ -35,7 +47,8 @@ const EnviarProduto: React.FC = () => {
     useEffect(() => {
         
         if (produto) {
-            setQuantidade(produto.quantidade);  
+            setQuantidade(produto.quantidade);
+            console.log(produto.cadastroLogin?.infoNegocio?.nomeEmpresa)
         }
     }, [produto]);  
 
@@ -45,12 +58,6 @@ const EnviarProduto: React.FC = () => {
         <div className="flex min-h-screen w-full text-black">
             <Sidebar />
             <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gray-100">
-                <InfoPerfil
-                    name={nomeUsuario || 'Usuário'}
-                    cargo={'admin'}
-                    profileImage={ProfilePerfilMock}
-                    onNotificationClick={() => { /* implementação de notificações */ }}
-                />
                 <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md text-center mt-6">
                     <h1 className="text-2xl font-bold mb-6">Confirme o Envio</h1>
                     
@@ -61,7 +68,11 @@ const EnviarProduto: React.FC = () => {
                             Valor: R${produto?.valor !== undefined ? produto.valor.toFixed(2) : "Indisponível"}
                         </p>
                         {produto?.foto && (
-                            <img src={produto.foto} alt={produto.nome} className="h-40 object-cover mb-2 rounded-md mx-auto" />
+                            <img
+                            src={`data:image/png;base64,${produto.foto}`}
+                            alt={produto.nome}
+                            className="h-40 object-cover mb-2 rounded-md mx-auto"
+                        />
                         )}
                     </div>
                     
@@ -86,7 +97,9 @@ const EnviarProduto: React.FC = () => {
                         <p className="font-semibold text-gray-700 mb-1">Endereço <span className="text-[#F60] underline">da sua Loja.</span></p>
                         <input
                             type="text"
-                            //value={}
+                            value={(produto?.cadastroLogin?.infoNegocio?.rua) + ',' + (produto?.cadastroLogin?.infoNegocio?.bairro) + ',' + (produto?.cadastroLogin?.infoNegocio.cep)}
+                            readOnly
+                            required
                             placeholder="123 Brotas. #22B Rua Chile, Brotas 446350-565."
                             className="w-full p-2 rounded-md text-gray-500 bg-white border border-gray-300 placeholder-gray-500"
                         />
@@ -100,6 +113,8 @@ const EnviarProduto: React.FC = () => {
                                     id="quantidade"
                                     value={produto?.quantidade}
                                     onChange={(e) => setQuantidade(parseInt(e.target.value) || 1)}
+                                    readOnly
+                                    required
                                     className="border rounded-md p-2 w-20 text-center text-gray-500 bg-gray-100 border-gray-300"
                                     min={1}
                                 />
@@ -110,6 +125,7 @@ const EnviarProduto: React.FC = () => {
                                     type="text"
                                     value={`R$ ${(produto?.valor || 0 * quantidade).toFixed(2)}`}
                                     readOnly
+                                    required
                                     className="border rounded-md p-2 w-28 text-right text-gray-700 bg-gray-100 border-gray-300"
                                 />
                             </div>
@@ -124,14 +140,20 @@ const EnviarProduto: React.FC = () => {
                         </div>
 
                         {/* Buttons */}
-                        <div className="flex flex-col space-y-4 mt-6">
-                            <button className="w-full py-2 rounded-md bg-orange-500 text-white font-bold hover:bg-orange-600">
-                                Confirmar Envio
-                            </button>
-                            <button className="w-full py-2 rounded-md bg-gray-400 text-white font-bold hover:bg-gray-500">
-                                Cancelar
-                            </button>
-                        </div>
+                        <div className="flex space-x-4 mt-6">
+                <button 
+                    onClick={handleSalvar} 
+                    className="w-full py-2 rounded-md bg-orange-500 text-white font-bold hover:bg-orange-600"
+                >
+                    Salvar
+                </button>
+                <button 
+                    onClick={handleCancelar} 
+                    className="w-full py-2 rounded-md bg-gray-400 text-white font-bold hover:bg-gray-500"
+                >
+                    Cancelar
+                </button>
+            </div>
                     </div>
                 </div>
             </div>

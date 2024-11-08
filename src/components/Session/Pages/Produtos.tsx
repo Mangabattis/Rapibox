@@ -19,8 +19,9 @@ const Produtos: React.FC = () => {
         fetch(`http://localhost:8080/produtos/${userId}`) 
             .then(response => response.json())
             .then(data => {
+                setProdutos(data);
                 console.log(data)
-                setProdutos(data); 
+                
             })
             .catch(error => console.error('Erro ao buscar produtos:', error));
     }, []);
