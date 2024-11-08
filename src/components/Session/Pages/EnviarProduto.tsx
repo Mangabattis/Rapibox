@@ -8,25 +8,38 @@ import InfoPerfil from '../../Session/InfoPerfil';
 interface EnviarProdutoProps {
     id: number;
     nome: string;
-    preco: number;
+    valor: number;
     descricao: string;
     imagem: string;
+    quantidade: number;
+    foto: string;
+    
+   
 }
 
-const EnviarProduto: React.FC<EnviarProdutoProps> = () => {
+const EnviarProduto: React.FC = () => {
     const { produtoId } = useParams<{ produtoId: string }>();
     const location = useLocation();
-    const { produto } = location.state as { produto: EnviarProdutoProps };
+    const { produto } = location.state as { produto?: EnviarProdutoProps } || {};
     const [nomeUsuario, setNomeUsuario] = useState<string | null>(null);
     const [quantidade, setQuantidade] = useState(1);
-    const [frete, setFrete] = useState(82.00);
+    const [frete, setFrete] = useState(82.0);
+    
+   
 
     useEffect(() => {
         const nome = localStorage.getItem('nomeUsuario');
         setNomeUsuario(nome);
     }, []);
 
-    const precoTotal = produto.preco * quantidade + frete;
+    useEffect(() => {
+        
+        if (produto) {
+            setQuantidade(produto.quantidade);  
+        }
+    }, [produto]);  
+
+    const precoTotal = (produto?.valor || 0) * quantidade + frete;
 
     return (
         <div className="flex min-h-screen w-full text-black">
@@ -43,9 +56,13 @@ const EnviarProduto: React.FC<EnviarProdutoProps> = () => {
                     
                     {/* Produto Info */}
                     <div className="mb-4 border border-gray-300 p-4">
-                        <p className="text-xl font-semibold">{produto.nome}</p>
-                        <p className="text-lg text-orange-600">Valor: R${produto.preco.toFixed(2)}</p>
-                        <img src={produto.imagem} alt={produto.nome} className="h-40 object-cover mb-2 rounded-md mx-auto" />
+                        <p className="text-xl font-semibold">{produto?.nome || "Produto Indisponível"}</p>
+                        <p className="text-lg text-orange-600">
+                            Valor: R${produto?.valor !== undefined ? produto.valor.toFixed(2) : "Indisponível"}
+                        </p>
+                        {produto?.foto && (
+                            <img src={produto.foto} alt={produto.nome} className="h-40 object-cover mb-2 rounded-md mx-auto" />
+                        )}
                     </div>
                     
                     {/* Form Fields */}
@@ -69,6 +86,7 @@ const EnviarProduto: React.FC<EnviarProdutoProps> = () => {
                         <p className="font-semibold text-gray-700 mb-1">Endereço <span className="text-[#F60] underline">da sua Loja.</span></p>
                         <input
                             type="text"
+                            //value={}
                             placeholder="123 Brotas. #22B Rua Chile, Brotas 446350-565."
                             className="w-full p-2 rounded-md text-gray-500 bg-white border border-gray-300 placeholder-gray-500"
                         />
@@ -80,17 +98,17 @@ const EnviarProduto: React.FC<EnviarProdutoProps> = () => {
                                 <input
                                     type="number"
                                     id="quantidade"
-                                    value={quantidade}
-                                    onChange={(e) => setQuantidade(parseInt(e.target.value))}
+                                    value={produto?.quantidade}
+                                    onChange={(e) => setQuantidade(parseInt(e.target.value) || 1)}
                                     className="border rounded-md p-2 w-20 text-center text-gray-500 bg-gray-100 border-gray-300"
                                     min={1}
                                 />
                             </div>
-                                <div className='flex items-center justify-between space-x-5'>
+                            <div className='flex items-center justify-between space-x-5'>
                                 <label htmlFor="quantidade" className="font-semibold">R$</label>
                                 <input
                                     type="text"
-                                    value={`R$ ${(produto.preco * quantidade).toFixed(2)}`}
+                                    value={`R$ ${(produto?.valor || 0 * quantidade).toFixed(2)}`}
                                     readOnly
                                     className="border rounded-md p-2 w-28 text-right text-gray-700 bg-gray-100 border-gray-300"
                                 />
